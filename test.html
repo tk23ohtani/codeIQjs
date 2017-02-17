@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Content-Style-Type" content="text/css">
+<title>test.html</title>
+</head>
+<body>
+
+<h1>Hello World!!</h1>
+<p id="result">Calcrating...</p>
+
+  <div id="prog-bar" class="progress" style="
+  width: 100%;
+  height: 30px;
+  background-color: #F5F5F5;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1);">
+    <div class="progress-bar" style="
+    transition: width 0.5s linear;
+    height: 100%;
+    background-color: #33B733;
+    border-radius: 4px;">
+    </div>
+  </div>
+
+<script type="text/javascript">
+
+var Progress = (function () {
+	function Progress (p, m) {
+    this.bar = document.querySelectorAll('#prog-bar > .progress-bar')[0];
+    this.p = p;
+    this.m = m;
+    this.update();
+  };
+  Progress.prototype.update = function ()  {
+    this.bar.style.width = this.p / this.m * 100 + '%';
+  };
+  Progress.prototype.set = function (n) {
+    this.p = n;
+    this.update();
+  };
+  return Progress;
+}());
+
+var mem = [];
+
+function check() {
+  var n = mem.length;
+  for (var i = 0; i < parseInt(n / 2); i++) {
+    if (mem[i] != mem[n - i - 1]) return 1;
+  }
+  return 0;
+}
+
+function store(n, l) {
+  mem = [];
+  var i = 0;
+  for (; n; i++) {
+    mem[i] = n % l;
+    n = parseInt(n / l);
+  }
+  return check();
+}
+
+function runner() {
+  var i;
+  var p = new Progress(0, 1000);
+  for (i = 10; i < 1000; i++) {
+    p.set(i);
+	if (store(i, 10) != 0) {
+	  continue;
+	}
+	if (store(i, 8) != 0) {
+	  continue;
+	}
+	if (store(i, 2) != 0) {
+	  continue;
+	}
+	break;
+  }
+  return i;
+}
+
+document.getElementById("result").innerText = "Result = " + runner();
+
+</script>
+
+</body>
+</html>
