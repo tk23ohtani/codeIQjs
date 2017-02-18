@@ -28,7 +28,7 @@
 <script type="text/javascript">
 
 var Progress = (function () {
-	function Progress (p, m) {
+    function Progress (p, m) {
     this.bar = document.querySelectorAll('#prog-bar > .progress-bar')[0];
     this.p = p;
     this.m = m;
@@ -45,36 +45,49 @@ var Progress = (function () {
 }());
 
 function store(n) {
-  var mem = ['', '+', '-', '*', '/'];
+  var mem = ['', '*', '+', '-', '/'];
   var str = n.toString();
   var sen = new String();
-  for (var l = 0; l < 5; l++) {
-  for (var k = 0; k < 5; k++) {
-  for (var j = 0; j < 5; j++) {
-	for (var i = 3; i > 0; i--) {
-      sen += str.charAt(i);
-      sen += mem[(i==3)?j:(i==2)?k:(i==1)?k:l];
+  var ans = new String();
+  for (var l = 0; l < mem.length; l++) {
+    for (var k = 0; k < mem.length; k++) {
+      for (var j = 0; j < mem.length; j++) {
+        sen = '';
+        ans = '';
+        for (var i = 3; i > 0; i--) {
+          sen += str.charAt(i);
+          ans += str.charAt(i);
+          sen += mem[(i==3)?j:(i==2)?k:l];
+        }
+        sen += str.charAt(i);
+        ans += str.charAt(i);
+        if ((j+k+l)==0) continue;
+        if (eval(sen) == n) {
+          console.log(sen + ' = ' + eval(sen));
+          return parseInt(ans);
+        }
+      }
     }
-  sen += str.charAt(i);
-  sen += '\n';
-  }}}
-  return sen;
+  }
+  return -1;
 }
 
 function runner() {
   var i;
   var p = new Progress(0, 10000);
+  var ans = -1;
   for (i = 1000; i < 9999; i++) {
     p.set(i);
-	if (store(i) != 0) {
-	  continue;
-	}
-	break;
+    ans = store(i);
+    if (ans < 0) {
+      continue;
+    }
+    break;
   }
-  return i;
+  return ans;
 }
 
-document.getElementById("result").innerText = "Result = " + store();
+document.getElementById("result").innerText = "Result = " + runner();
 
 </script>
 
