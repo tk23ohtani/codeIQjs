@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>test.html</title>
+</head>
+<body>
+
+<h1>Q03</h1>
+<p id="result">Calcrating...</p>
+
+<script type="text/javascript">
+
+function runner() {
+  var num = new Array(100);
+  for (var i=0; i<100; i++) {
+    num[i] = 1;
+  }
+  var j;
+  for (j=1; j<100; j++) {
+    for (var k=j; k<100; k+=(j+1)) {
+      num[k] ^= 1;
+    }
+  }
+  var result = '';
+  for (var i=0; i<100; i++) {
+    if (num[i]) {
+      result += (i + 1) + ' ';
+    }
+  }
+  return result;
+}
+
+document.getElementById("result").innerText = "Result = " + runner();
+
+</script>
+
+</body>
+</html>
